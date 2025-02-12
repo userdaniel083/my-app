@@ -2,20 +2,27 @@
 
 import { useEffect, useState } from "react";
 
+interface SystemInfo {
+  node: string;
+  npm: string;
+  next: string;
+  timestamp: string;
+}
+
 export default function Home() {
-  const [systemInfo, setSystemInfo] = useState<any>(null);
+  const [systemInfo, setSystemInfo] = useState<SystemInfo | null>(null);
 
   useEffect(() => {
     fetch("/system.json")
       .then((res) => res.json())
-      .then((data) => setSystemInfo(data))
+      .then((data: SystemInfo) => setSystemInfo(data))
       .catch((err) => console.error("Error fetching system info:", err));
   }, []);
 
   const handleUpdate = async () => {
     await fetch("/api/update");
     const res = await fetch("/system.json");
-    const data = await res.json();
+    const data: SystemInfo = await res.json();
     setSystemInfo(data);
   };
 
@@ -23,6 +30,7 @@ export default function Home() {
 
   return (
     <div>
+      <h1>System Installation Status</h1>
       <ul>
         <li><strong>Node.js:</strong> {systemInfo.node}</li>
         <li><strong>npm:</strong> {systemInfo.npm}</li>
