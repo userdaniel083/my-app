@@ -4,13 +4,20 @@ export default function Home() {
   const [systemInfo, setSystemInfo] = useState(null);
 
   useEffect(() => {
-    fetch("/api/system")
+    fetch("/system.json")
       .then((res) => res.json())
       .then((data) => setSystemInfo(data))
-      .catch((err) => console.error("Error in info:", err));
+      .catch((err) => console.error("Error loading system info:", err));
   }, []);
 
-  if (!systemInfo) return <p>systeem info loading...</p>;
+  const handleUpdate = async () => {
+    await fetch("/api/updateSystem");
+    const res = await fetch("/system.json");
+    const data = await res.json();
+    setSystemInfo(data);
+  };
+
+  if (!systemInfo) return <p>Loading system info...</p>;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
@@ -19,7 +26,11 @@ export default function Home() {
         <li><strong>Node.js:</strong> {systemInfo.node}</li>
         <li><strong>npm:</strong> {systemInfo.npm}</li>
         <li><strong>Next.js:</strong> {systemInfo.next}</li>
+        <li><strong>Last Checked:</strong> {new Date(systemInfo.timestamp).toLocaleString()}</li>
       </ul>
+      <button onClick={handleUpdate} style={{ padding: "10px", cursor: "pointer" }}>
+        Refresh System Info
+      </button>
     </div>
   );
 }
