@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  return <h1>System Installation Status</h1>;
   const [systemInfo, setSystemInfo] = useState(null);
 
   useEffect(() => {
