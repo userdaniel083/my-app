@@ -1,1 +1,6 @@
-dir public\system.json
+{
+  "node": "v22.13.1",
+  "npm": "10.9.2",
+  "next": "Next.js v15.1.6",
+  "timestamp": "2025-02-13T19:09:48.270Z"
+}

@@ -6,7 +6,7 @@ function checkInstallation(command: string): string {
   try {
     return execSync(command, { stdio: "pipe" }).toString().trim();
   } catch (error) {
-    console.error(`Error executing ${command}:`, error);
+    console.error(`❌ Error executing ${command}:`, error);
     return "Not Installed";
   }
 }
@@ -22,10 +22,12 @@ export function generateSystemInfo() {
   const filePath = path.join(process.cwd(), "public", "system.json");
 
   try {
-    fs.writeFileSync(filePath, JSON.stringify(systemInfo, null, 2));
-    console.log("System information written to:", filePath);
+    console.log("📂 Writing to:", filePath);
+    fs.writeFileSync(filePath, JSON.stringify(systemInfo, null, 2), "utf-8");
+    console.log("✅ system.json successfully created!");
+
   } catch (error) {
-    console.error("Error writing system.json:", error);
+    console.error("❌ Error writing system.json:", error);
   }
 
   return systemInfo;
